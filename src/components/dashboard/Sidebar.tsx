@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   ClipboardCheck,
   Target,
-  BarChart3,
   Users,
   FileText,
 } from "lucide-react";

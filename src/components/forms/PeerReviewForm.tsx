@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useEmployee } from "@/context/EmployeeContext";
 import {
+  getCognitoUsers,
   submitPeerReview,
 } from "@/services/reviewService";
+import type { CognitoUserSummary } from "@/types/review";
+
+interface CurrentUser {
+  employeeId?: string;
+  username?: string;
+}
 
 export default function PeerReviewForm() {
   const { employeeId } =
@@ -17,6 +24,41 @@ export default function PeerReviewForm() {
   rating: 3,
   anonymous: true,
 });
+
+  useEffect(() => {
+    async function loadReviewContext() {
+      try {
+        const [loadedUsers, meResponse] =
+          await Promise.all([
+            getCognitoUsers(),
+            fetch("/api/auth/me", {
+              cache: "no-store",
+            }),
+          ]);
+        const meData = meResponse.ok
+          ? ((await meResponse.json()) as {
+              user?: CurrentUser;
+            })
+          : {};
+
+        setUsers(loadedUsers);
+        setFormData((current) => ({
+          ...current,
+          reviewerId:
+            meData.user?.employeeId ??
+            meData.user?.username ??
+            current.reviewerId,
+        }));
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load Cognito users");
+      } finally {
+        setLoadingUsers(false);
+      }
+    }
+
+    loadReviewContext();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -30,6 +72,8 @@ export default function PeerReviewForm() {
       [e.target.name]:
         e.target.type === "checkbox"
           ? (e.target as HTMLInputElement).checked
+          : e.target.name === "rating"
+            ? Number(e.target.value)
           : e.target.value,
     });
   };
@@ -80,16 +124,24 @@ const response =
 
           <select
             name="employeeId"
+            value={formData.employeeId}
             onChange={handleChange}
+            disabled={loadingUsers}
             className="w-full bg-zinc-800 text-white rounded-xl p-4 outline-none"
           >
-            <option value="">Choose Employee</option>
-            <option value="EMP102">
-              John Doe
+            <option value="">
+              {loadingUsers
+                ? "Loading Cognito users..."
+                : "Choose Employee"}
             </option>
-            <option value="EMP103">
-              Sarah Smith
-            </option>
+            {users.map((user) => (
+              <option
+                key={user.id}
+                value={user.employeeId}
+              >
+                {user.displayName} ({user.employeeId})
+              </option>
+            ))}
           </select>
         </div>
 
@@ -116,6 +168,7 @@ const response =
             min="1"
             max="5"
             name="rating"
+            value={formData.rating}
             onChange={handleChange}
             className="w-full bg-zinc-800 text-white rounded-xl p-4 outline-none"
           />
