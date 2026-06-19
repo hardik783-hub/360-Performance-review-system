@@ -1,337 +1,299 @@
-# 360-Degree Performance Review & OKR Tracking System
+# 🚀 PerformAI – 360° Performance Review & OKR Tracking System
 
-## Overview
+<div align="center">
 
-The **360-Degree Performance Review & OKR Tracking System** is a cloud-native employee performance management platform built on **AWS Serverless Services**. The system enables organizations to conduct structured employee performance reviews, collect feedback from multiple stakeholders, track Objectives and Key Results (OKRs), and generate performance reports.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript)
+![AWS](https://img.shields.io/badge/AWS-Serverless-FF9900?style=for-the-badge&logo=amazonaws)
+![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=for-the-badge&logo=amazondynamodb)
+![S3](https://img.shields.io/badge/Amazon_S3-569A31?style=for-the-badge&logo=amazons3)
+![SES](https://img.shields.io/badge/Amazon_SES-232F3E?style=for-the-badge&logo=amazonaws)
+![Cognito](https://img.shields.io/badge/Amazon_Cognito-FF9900?style=for-the-badge&logo=amazonaws)
 
-The platform replaces traditional manual review processes with an automated, scalable, and data-driven workflow.
+### Cloud-Native Employee Performance Management Platform
 
----
-
-## Key Features
-
-### Performance Review Management
-
-* Self Reviews
-* Peer Reviews
-* Manager Reviews
-* Anonymous Peer Feedback
-* Review Cycle Management
-
-### OKR Tracking
-
-* Create and track Objectives & Key Results
-* Employee-level OKR monitoring
-* Progress visualization
-
-### HR Analytics Dashboard
-
-* Workforce performance insights
-* Review completion tracking
-* Average rating analysis
-* Top performer identification
-
-### Automated Reporting
-
-* Performance report generation
-* HTML report publishing to Amazon S3
-* HR access to employee reports
-
-### Workflow Automation
-
-* Automated review reminders
-* Review status monitoring
-* Performance report generation workflow
-* Event-driven notifications
+</div>
 
 ---
 
-# System Architecture
+## 📌 Overview
 
-Frontend (Next.js + TypeScript)
+PerformAI is a cloud-native **360-Degree Performance Review & OKR Tracking System** built using AWS Serverless technologies and Next.js.
 
-↓
+The platform enables organizations to conduct structured employee performance reviews through Self Reviews, Peer Reviews, and Manager Reviews while tracking Objectives & Key Results (OKRs), generating performance reports, and providing HR teams with actionable workforce insights.
 
+---
+
+## ✨ Features
+
+### 👨‍💼 Employee Portal
+
+- Submit Self Reviews
+- Submit Peer Reviews
+- Track OKRs
+- View Assigned Review Cycles
+
+### 👨‍💻 Manager Portal
+
+- Submit Manager Reviews
+- Evaluate Employee Performance
+- Leadership Assessment
+- Communication Assessment
+- Technical Skill Assessment
+
+### 🏢 HR Dashboard
+
+- Create Review Cycles
+- Monitor Review Progress
+- Workforce Analytics
+- View Employee Reports
+- Track Performance Metrics
+
+### 📊 Analytics & Reporting
+
+- Performance Reports
+- Employee Ratings Analysis
+- Top Performer Identification
+- Review Completion Tracking
+
+### 📧 Workflow Automation
+
+- Automated Review Notifications
+- Reminder Emails using Amazon SES
+- Event-Based Scheduling
+- Step Functions Workflow Orchestration
+
+---
+
+## 🏗️ Architecture
+
+```text
+Frontend (Next.js)
+        │
+        ▼
 Amazon API Gateway
-
-↓
-
+        │
+        ▼
 AWS Lambda Functions
+        │
+ ┌──────┼─────────┬─────────┬────────┐
+ ▼      ▼         ▼         ▼        ▼
 
-↓
+DynamoDB  S3    SES   EventBridge Step Functions
+   │       │      │        │          │
+   ▼       ▼      ▼        ▼          ▼
 
-Amazon DynamoDB
-
-↓
-
-Amazon S3 (Reports)
-
-↓
-
-Amazon SES (Email Notifications)
-
-↓
-
-Amazon EventBridge
-
-↓
-
-AWS Step Functions
+Reviews  Reports Email  Scheduling Workflow
+Cycles   Storage Notifications Automation
+OKRs
+```
 
 ---
 
-## Technology Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
-* Next.js 15
-* React
-* TypeScript
-* Tailwind CSS
-* Recharts
+- Next.js 15
+- React
+- TypeScript
+- Tailwind CSS
 
 ### Backend
 
-* AWS Lambda
-* Amazon API Gateway
-* Amazon DynamoDB
+- AWS Lambda
+- Amazon API Gateway
 
-### AWS Services
+### Database
 
-* Amazon Cognito (Authentication)
-* Amazon SES (Email Notifications)
-* Amazon S3 (Report Storage)
-* Amazon EventBridge (Scheduled Jobs)
-* AWS Step Functions (Workflow Orchestration)
+- Amazon DynamoDB
 
----
+### Authentication
 
-# User Roles
+- Amazon Cognito
 
-## Employee
+### Storage
 
-* Submit Self Reviews
-* Submit Peer Reviews
-* Track OKRs
-* View Assigned Review Cycles
+- Amazon S3
 
-## Manager
+### Notifications
 
-* Submit Manager Reviews
-* Evaluate Employee Performance
-* Provide Feedback and Ratings
+- Amazon SES
 
-## HR
+### Workflow Automation
 
-* Create Review Cycles
-* Monitor Review Progress
-* View Analytics Dashboard
-* Access Employee Reports
+- Amazon EventBridge
+- AWS Step Functions
 
 ---
 
-# Project Workflow
+## 📂 Project Structure
 
-## 1. HR Creates Review Cycle
-
-HR creates a review cycle by specifying:
-
-* Cycle Name
-* Start Date
-* End Date
-* Employee List
-
-The system stores the cycle in DynamoDB and sends review notifications.
-
----
-
-## 2. Review Submission
-
-Employees participate in the review process through:
-
-### Self Review
-
-Employees evaluate their own performance.
-
-### Peer Review
-
-Employees provide feedback to colleagues.
-
-### Manager Review
-
-Managers assess employee performance across multiple categories.
-
----
-
-## 3. Workflow Automation
-
-AWS Step Functions monitor review completion.
-
-The workflow:
-
-* Checks review status
-* Determines completion state
-* Sends reminder emails when reviews are pending
-* Generates reports when reviews are completed
+```bash
+PerformAI/
+│
+├── src/
+│   ├── app/
+│   │   ├── employee/
+│   │   ├── hr/
+│   │   ├── reviews/
+│   │   ├── api/
+│   │
+│   ├── components/
+│   │   ├── dashboard/
+│   │   ├── forms/
+│   │   ├── layouts/
+│   │
+│   ├── services/
+│   ├── context/
+│   ├── lib/
+│   └── types/
+│
+├── backend/
+│   ├── lambdas/
+│   ├── step-functions/
+│
+├── public/
+│
+└── README.md
+```
 
 ---
 
-## 4. Report Generation
+## 🔄 Workflow
 
-After completion:
+### 1️⃣ Create Review Cycle
 
-* Performance scores are aggregated
-* Reports are generated
-* HTML reports are uploaded to Amazon S3
-* HR can access reports through the dashboard
+```text
+HR Creates Review Cycle
+        ↓
+Assign Employees
+        ↓
+Store in DynamoDB
+        ↓
+Send Email Notifications
+```
+
+### 2️⃣ Submit Reviews
+
+```text
+Self Review
+      ↓
+Peer Review
+      ↓
+Manager Review
+      ↓
+Store in DynamoDB
+```
+
+### 3️⃣ Workflow Automation
+
+```text
+Review Status Check
+         ↓
+Step Functions
+         ↓
+Cycle Monitoring
+         ↓
+Generate Reports
+```
+
+### 4️⃣ Report Generation
+
+```text
+Collect Reviews
+       ↓
+Calculate Ratings
+       ↓
+Generate Report
+       ↓
+Upload to Amazon S3
+       ↓
+HR Access Dashboard
+```
 
 ---
 
-# AWS Resources Used
+## 📊 AWS Services Used
 
-## DynamoDB Tables
+| Service | Purpose |
+|----------|----------|
+| AWS Lambda | Backend Business Logic |
+| API Gateway | REST APIs |
+| DynamoDB | Data Storage |
+| Cognito | Authentication |
+| SES | Email Notifications |
+| EventBridge | Scheduling & Reminders |
+| Step Functions | Workflow Automation |
+| S3 | Report Storage |
+
+---
+
+## 📦 DynamoDB Tables
 
 ### Reviews
 
 Stores:
 
-* Self Reviews
-* Peer Reviews
-* Manager Reviews
+- Self Reviews
+- Peer Reviews
+- Manager Reviews
 
 ### ReviewCycles
 
 Stores:
 
-* Cycle Information
-* Assigned Employees
-* Status Tracking
+- Cycle Information
+- Employee Assignments
+- Review Status
 
 ### OKRs
 
 Stores:
 
-* Employee Objectives
-* Key Results
-* Progress Data
+- Objectives
+- Key Results
+- Progress Tracking
 
 ---
 
-## Lambda Functions
+## 🚀 Getting Started
 
-### Review Management
-
-* submitSelfReview
-* submitPeerReview
-* submitManagerReview
-
-### Cycle Management
-
-* createReviewCycle
-* getCycles
-
-### Reporting
-
-* generatePerformanceReport
-* generateAndUploadReport
-
-### Workflow
-
-* getReviewStatus
-* sendReviewReminders
-
----
-
-## API Endpoints
-
-### Reviews
-
-POST /reviews/self
-
-POST /reviews/peer
-
-POST /reviews/manager
-
----
-
-### Review Cycles
-
-POST /cycles
-
-GET /cycles
-
----
-
-### Reports
-
-GET /reports/{employeeId}
-
-GET /report-html/{employeeId}
-
----
-
-### Workflow
-
-GET /review/status/{employeeId}
-
----
-
-# Authentication
-
-The application uses **Amazon Cognito** for authentication and role-based access control.
-
-Supported Roles:
-
-* Employee
-* Manager
-* HR
-
-Authentication Features:
-
-* Secure Login
-* Session Management
-* Role-Based Dashboard Access
-* Logout Support
-
----
-
-# Setup Instructions
-
-## Clone Repository
+### Clone Repository
 
 ```bash
-git clone <repository-url>
-cd performance-review-system
+git clone https://github.com/yourusername/performai.git
+cd performai
 ```
 
-## Install Dependencies
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-## Configure Environment Variables
+### Configure Environment Variables
 
 Create a `.env.local` file:
 
 ```env
-NEXT_PUBLIC_API_URL=<api-gateway-url>
+NEXT_PUBLIC_API_URL=
 
-COGNITO_DOMAIN=<cognito-domain>
-COGNITO_USER_POOL_ID=<user-pool-id>
-COGNITO_CLIENT_ID=<client-id>
-COGNITO_CLIENT_SECRET=<client-secret>
+COGNITO_DOMAIN=
+COGNITO_USER_POOL_ID=
+COGNITO_CLIENT_ID=
+COGNITO_CLIENT_SECRET=
 
-AUTH_SESSION_SECRET=<generated-secret>
+AUTH_SESSION_SECRET=
 ```
 
-## Start Development Server
+### Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Application URL:
+Open:
 
 ```text
 http://localhost:3000
@@ -339,37 +301,42 @@ http://localhost:3000
 
 ---
 
-# Future Enhancements
+## 🌟 Future Enhancements
 
-* Multi-level approval workflows
-* AI-generated performance insights
-* Advanced analytics dashboards
-* PDF report generation
-* Real-time notifications
-* Department-level reporting
-* Automated cycle completion
-* Fine-grained RBAC
-
----
-
-# Learning Outcomes
-
-This project demonstrates:
-
-* Serverless Application Development
-* AWS Cloud Architecture
-* Workflow Automation
-* Authentication & Authorization
-* Event-Driven Systems
-* Full Stack Development
-* Cloud-Native Design Patterns
+- AI Performance Insights
+- Sentiment Analysis
+- PDF Report Generation
+- Department-Level Analytics
+- Slack Integration
+- Mobile Application
+- Automated Cycle Completion
 
 ---
 
-# Author
+## 📈 Learning Outcomes
 
-Internship Project
+- AWS Lambda
+- API Gateway
+- DynamoDB
+- Cognito
+- SES
+- EventBridge
+- Step Functions
+- S3
+- Next.js
+- TypeScript
+- Serverless Architecture
 
-**360-Degree Performance Review & OKR Tracking System**
+---
 
-Built using AWS Serverless Technologies, Next.js, TypeScript, and DynamoDB.
+## 👨‍💻 Team PerformAI
+
+360° Performance Review & OKR Tracking System
+
+Built using AWS Serverless Technologies, Next.js, TypeScript, DynamoDB, Cognito, SES, S3, EventBridge, and Step Functions.
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a star ⭐ on GitHub.
